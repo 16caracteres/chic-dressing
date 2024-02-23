@@ -36,6 +36,7 @@ class SB_Instagram_Display_Elements {
 				$classes .= ' sbi_new sbi_no_js sbi_no_resraise sbi_js_load_disabled';
 			}
 		} else {
+			$classes .= isset( $settings['disable_js_image_loading'] ) && $settings['disable_js_image_loading'] ? ' sbi_no_js_customizer' : '';
 			$classes .= ' sbi_new ';
 		}
 
@@ -386,7 +387,7 @@ class SB_Instagram_Display_Elements {
 	public static function get_follow_styles( $settings ) {
 		$styles = '';
 
-		if ( ( empty( $settings['colorpalette'] ) || $settings['colorpalette'] === 'inherit' ) && ( ! empty( $settings['followcolor'] ) || ! empty( $settings['followtextcolor'] ) ) ) {
+		if ( ! self::doing_custom_palettes_for_button( $settings ) && ( ! empty( $settings['followcolor'] ) || ! empty( $settings['followtextcolor'] ) ) ) {
 			$styles = ' style="';
 			if ( ! empty( $settings['followcolor'] ) ) {
 				$styles .= 'background: rgb(' . esc_attr( sbi_hextorgb( $settings['followcolor'] ) ) . ');';
@@ -399,9 +400,20 @@ class SB_Instagram_Display_Elements {
 		return $styles;
 	}
 
+	public static function doing_custom_palettes_for_button( $settings ) {
+		if ( ( empty( $settings['colorpalette'] ) || $settings['colorpalette'] === 'inherit' ) ) {
+			return false;
+		}
+		if ( $settings['colorpalette'] === 'custom' && ! empty( $settings['custombuttoncolor2'] ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public static function get_follow_hover_color( $settings ) {
 		if ( ! empty( $settings['followhovercolor'] ) && $settings['followhovercolor'] !== '#359dff' ) {
-			return $settings['followhovercolor'];
+			return esc_attr($settings['followhovercolor']);
 		}
 		return '';
 	}
@@ -432,7 +444,7 @@ class SB_Instagram_Display_Elements {
 
 	public static function get_load_button_hover_color( $settings ) {
 		if ( ! empty( $settings['buttonhovercolor'] ) && $settings['buttonhovercolor'] !== '#000' ) {
-			return $settings['buttonhovercolor'];
+			return esc_attr($settings['buttonhovercolor']);
 		}
 		return '';
 	}
@@ -502,7 +514,7 @@ class SB_Instagram_Display_Elements {
 		$palette_class                 = self::get_palette_class( $settings );
 
 		if ( $customizer ) {
-			return ' :class="\'sbi \' + ' . $mobilecols_class . ' + \' \' + ' . $tabletcols_class . ' + \' sbi_col_\' + ' . $cols_setting . ' + \' \' + ' . $palette_class . ' + \' \' + ' . $additional_customizer_classes . '" ';
+			return ' :class="\'sbi \' + ' . esc_attr( $mobilecols_class ) . ' + \' \' + ' . esc_attr( $tabletcols_class ) . ' + \' sbi_col_\' + ' . esc_attr( $cols_setting ) . ' + \' \' + ' . esc_attr( $palette_class ) . ' + \' \' + ' . esc_attr( $additional_customizer_classes ) . '" ';
 		} else {
 			$classes = 'sbi' . esc_attr( $mobilecols_class ) . esc_attr( $tabletcols_class ) . ' sbi_col_' . esc_attr( $cols_setting ) . esc_attr( $additional_classes ) . esc_attr( $palette_class );
 			$classes = ' class="' . $classes . '"';
@@ -523,11 +535,11 @@ class SB_Instagram_Display_Elements {
 	public static function get_palette_class( $settings, $context = '' ) {
 		$customizer = sbi_doing_customizer( $settings );
 		if ( $customizer ) {
-			return ' $parent.getPaletteClass() ';
+			return wp_kses_post(' $parent.getPaletteClass() ');
 		} else {
 			$feed_id_addition = ! empty( $settings['colorpalette'] ) && $settings['colorpalette'] === 'custom' ? '_' . $settings['feed'] : '';
 			$palette_class    = ! empty( $settings['colorpalette'] ) && $settings['colorpalette'] !== 'inherit' ? ' sbi' . $context . '_palette_' . $settings['colorpalette'] . $feed_id_addition : '';
-			return $palette_class;
+			return esc_attr($palette_class);
 		}
 	}
 
@@ -541,7 +553,7 @@ class SB_Instagram_Display_Elements {
 	 * @since 6.0
 	 */
 	public static function palette_type( $settings ) {
-		return ! empty( $settings['colorpalette'] ) ? $settings['colorpalette'] : 'inherit';
+		return ! empty( $settings['colorpalette'] ) ? esc_attr($settings['colorpalette']) : 'inherit';
 	}
 
 	/**
@@ -1201,7 +1213,7 @@ class SB_Instagram_Display_Elements {
 			$result_vue = ' v-if=" ' . $result_vue . '" ';
 		}
 
-		return $result_vue;
+		return wp_kses_post($result_vue);
 	}
 
 	/**
@@ -1215,10 +1227,11 @@ class SB_Instagram_Display_Elements {
 	 */
 	public static function should_show_element_vue( $settings, $setting_name, $custom_condition = false ) {
 		$customizer = sbi_doing_customizer( $settings );
+		$vue_element = '';
 		if ( $customizer ) {
-			return ' v-if="$parent.valueIsEnabled($parent.customizerFeedData.settings.' . $setting_name . ')' . ( $custom_condition != false ? $custom_condition : '' ) . '" ';
+			$vue_element = ' v-if="$parent.valueIsEnabled($parent.customizerFeedData.settings.' . $setting_name . ')' . ( $custom_condition != false ? $custom_condition : '' ) . '" ';
 		}
-		return '';
+		return wp_kses_post($vue_element);
 	}
 
 	/**
@@ -1232,10 +1245,11 @@ class SB_Instagram_Display_Elements {
 	 * @since 6.0
 	 */
 	public static function should_print_element_vue( $customizer, $content ) {
+		$print_element = '';
 		if ( $customizer ) {
-			return ' v-html="' . $content . '" ';
+			$print_element = ' v-html="' . $content . '" ';
 		}
-		return '';
+		return wp_kses_post($print_element);
 	}
 
 	/**
@@ -1249,10 +1263,11 @@ class SB_Instagram_Display_Elements {
 	 * @since 6.0
 	 */
 	public static function create_condition_vue( $customizer, $condition ) {
+		$if_statement = '';
 		if ( $customizer ) {
-			return ' v-if="' . $condition . '" ';
+			$if_statement = ' v-if="' . $condition . '" ';
 		}
-		return '';
+		return wp_kses_post($if_statement);
 	}
 
 	/**
@@ -1266,10 +1281,11 @@ class SB_Instagram_Display_Elements {
 	 * @since 6.0
 	 */
 	public static function print_element_attribute( $customizer, $args ) {
+		$print_element = ' ' . esc_attr($args['attr']) . '="' . esc_attr($args['php_content']) . '"';
 		if ( $customizer ) {
-			return ' :' . $args['attr'] . '="' . $args['vue_content'] . '"';
+			$print_element = ' :' . esc_attr($args['attr']) . '="' . wp_kses_post($args['vue_content']) . '"';
 		}
-		return ' ' . $args['attr'] . '="' . $args['php_content'] . '"';
+		return $print_element;
 	}
 
 	/**

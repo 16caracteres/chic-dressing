@@ -1,9 +1,10 @@
 # OceanWP
 
-**Contributors:** Amit, Marko and Mohammad Taghi
+**Contributors:** The OceanWP Team
 **Requires at least:** WordPress 5.6
-**Tested up to:** WordPress 5.9.2
-**Stable tag:** 3.2.1
+**Tested up to:** WordPress 6.4.2
+=======
+**Stable tag:** 3.5.3
 **Requires PHP:** 7.2
 **License:** GPLv2 or later
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
