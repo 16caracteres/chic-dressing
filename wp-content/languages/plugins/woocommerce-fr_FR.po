@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2024-02-22 17:54:10+0000\n"
+"PO-Revision-Date: 2024-02-23 10:54:13+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -490,7 +490,7 @@ msgstr "Impossible de démarrer le processus d’installation. Motif : "
 
 #: includes/admin/settings/class-wc-settings-advanced.php:364
 msgid "Leave this box unchecked if you do not want to pull suggested extensions from Woo.com. You will see a static list of extensions instead."
-msgstr "Ne cochez pas cette case si vous ne voulez pas voir de suggestions d’extension de Woo.com. Vous verrez à la place une liste statique d’extensions."
+msgstr "Ne cochez pas cette case si vous ne voulez pas voir de suggestions d’extensions de Woo.com. Vous verrez à la place une liste statique d’extensions."
 
 #: assets/client/blocks/product-filter-rating/block.json
 msgctxt "block description"
