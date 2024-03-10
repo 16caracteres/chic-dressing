@@ -30,7 +30,7 @@ if ( is_home() ) {
 	<!-- on inclut la Google Maps de la Fashion Week -->
 	<div id="chic-fashionweek-map" class="boxed-wrapper clear-fix" style="margin-top:30px">
 		<h2 class="chic-title">La FashionMap - été 2022</h2>
-		<iframe src="https://www.google.com/maps/d/embed?mid=1SU-W19k76UkTXASeT7PnGAyDYCY&hl=en_US&ehbc=2E312F" width="100%" height="480"></iframe>';
+		<iframe src="https://www.google.com/maps/d/embed?mid=1SU-W19k76UkTXASeT7PnGAyDYCY&hl=en_US&ehbc=2E312F" width="100%" height="480"></iframe>
 	</div>
 	<?php
 
@@ -38,7 +38,7 @@ if ( is_home() ) {
 
 ?>
 
-<div class="main-content clear-fix<?php echo esc_attr(ashe_options( 'general_content_width' )) === 'boxed' ? ' boxed-wrapper': ''; ?>" data-layout="<?php echo esc_attr( ashe_options( 'general_home_layout' ) ); ?>" data-sidebar-sticky="<?php echo esc_attr( ashe_options( 'general_sidebar_sticky' ) ); ?>">
+<div class="main-content clear-fix<?php echo esc_attr(ashe_options( 'general_content_width' )) === 'boxed' ? ' boxed-wrapper': ''; ?>" id="le-blog" data-layout="<?php echo esc_attr( ashe_options( 'general_home_layout' ) ); ?>" data-sidebar-sticky="<?php echo esc_attr( ashe_options( 'general_sidebar_sticky' ) ); ?>">
 
 	<?php
 

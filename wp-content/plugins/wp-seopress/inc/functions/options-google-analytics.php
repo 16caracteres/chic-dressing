@@ -556,9 +556,10 @@ for (let i = 0; i < links.length; i++) {
             }
         }
 
-        // E-commerce
-        if (isset($seopress_google_analytics_click_event['purchase_tracking'])) {
-            $seopress_google_analytics_html .= $seopress_google_analytics_click_event['purchase_tracking'];
+        $seopress_gtag_before_closing_script = '';
+        $seopress_gtag_before_closing_script = apply_filters('seopress_gtag_before_closing_script', $seopress_gtag_before_closing_script);
+        if(!empty($seopress_gtag_before_closing_script)) {
+            $seopress_google_analytics_html .= $seopress_gtag_before_closing_script;
         }
 
         $seopress_google_analytics_html .= '</script>';
